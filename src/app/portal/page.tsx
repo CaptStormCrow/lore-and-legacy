@@ -111,6 +111,9 @@ export default function PortalPage() {
             <span className="text-sm px-3 py-1 rounded" style={{ background: 'var(--bg-elevated)', color: 'var(--gold)', border: '1px solid var(--border)' }}>
               {user?.tier?.replace('_', ' ').toUpperCase()}
             </span>
+            <a href="/dashboard/ll-command.html" className="text-sm font-cinzel tracking-widest" style={{ color: 'var(--text-muted)', fontSize: 12 }}>
+              Command Center
+            </a>
             <button
               onClick={() => supabase.auth.signOut().then(() => window.location.href = '/')}
               className="text-sm text-muted hover:text-muted"
@@ -132,7 +135,7 @@ export default function PortalPage() {
             <div className="p-6 rounded border text-center" style={{ borderColor: 'var(--border)', background: 'var(--bg-card)' }}>
               <p className="text-muted mb-4">Upgrade your plan to generate worlds.</p>
               <a
-                href="/"
+                href="/pricing"
                 className="inline-block px-6 py-2 font-cinzel text-sm tracking-widest rounded"
                 style={{ background: 'var(--gold)', color: 'var(--bg)' }}
               >

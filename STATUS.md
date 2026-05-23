@@ -112,3 +112,30 @@
 
 **Live URL:** https://lore-and-legacy.vercel.app
 **Inspect:** https://vercel.com/kys-projects-0ba7e891/lore-and-legacy
+
+---
+
+### Session 3 — 2026-05-23
+**Status:** ✅ LIVE — https://lore-and-legacy.vercel.app
+
+**Completed:**
+- **Fix 1** ✅ `/api/subscribe` — entire POST handler wrapped in try/catch, cancel_url → `/pricing?cancelled=true`, improved error messages
+- **Fix 2** ✅ `/pricing` page created — full 4-tier pricing page with FAQ accordion, auth modal, subscribe flow
+- **Fix 2 (cont.)** ✅ Portal "View Plans" link updated from `href="/"` → `href="/pricing"`
+- **Fix 2 (cont.)** ✅ Home page pricing tier buttons changed from direct-subscribe to `<a href="/pricing">` links; dead auth modal code removed
+- **Fix 3** ✅ Dashboard HTML files copied to `/public/dashboard/` (Vercel serves as static at `/dashboard/*.html`)
+- **Fix 3 (cont.)** ✅ "Command Center" nav link added to portal header → `/dashboard/ll-command.html`
+- **Fix 4** ✅ `incrementUsage` in `src/lib/usageCheck.ts` updated to D017 pattern — takes `(userId, tier)`, creates own service client internally, no longer requires external Supabase param
+- **Fix 5** ✅ CORS headers (`Access-Control-Allow-Origin: *`, `Cache-Control: no-store`) added to `/api/status` GET response
+- **Fix 5 (cont.)** ✅ Live status polling JS wired into `/public/dashboard/ll-command.html` — polls every 30s, updates MRR, subscriber count, metric tiles, agent log colors from Supabase
+- **Fix 6** ✅ OPTIONS handler added to `/api/status/route.ts` for CORS preflight
+- `npm run build` — ✅ 0 errors, all 16 routes compile clean
+- `vercel --prod` — ✅ Deployed, aliased to https://lore-and-legacy.vercel.app
+
+**Live URLs:**
+- Site: https://lore-and-legacy.vercel.app
+- Pricing: https://lore-and-legacy.vercel.app/pricing
+- Command Center: https://lore-and-legacy.vercel.app/dashboard/ll-command.html
+
+**Skipped:**
+- Nothing skipped this session.

@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Tier } from '@/types';
+import { createServiceClient } from '@/lib/supabase/server';
 
 const TIER_LIMITS: Record<Tier, number> = {
   free: 0,
@@ -62,11 +63,11 @@ export async function checkUsage(
 }
 
 export async function incrementUsage(
-  supabase: SupabaseClient,
   userId: string,
-  tier: Tier
+  tier: string
 ): Promise<void> {
   const weekStart = getMondayOfWeek(new Date());
+  const supabase = await createServiceClient();
 
   const { data: existing } = await supabase
     .from('usage_tracking')

@@ -5,6 +5,17 @@ import { createServiceClient } from '@/lib/supabase/server';
 
 const AGENT_IDS = ['oracle', 'vex', 'ledger', 'cipher', 'axiom', 'herald', 'forge'];
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Cache-Control': 'no-store',
+};
+
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 200, headers: CORS_HEADERS });
+}
+
 export async function GET() {
   const supabase = await createServiceClient();
 
@@ -27,11 +38,14 @@ export async function GET() {
     agentLogs[agentId] = logsResults[i].data ?? [];
   });
 
-  return NextResponse.json({
-    dashboard: statusResult.data,
-    agents: agentStatusResult.data,
-    brain: brainResult.data,
-    logs: agentLogs,
-    timestamp: new Date().toISOString(),
-  });
+  return NextResponse.json(
+    {
+      dashboard: statusResult.data,
+      agents: agentStatusResult.data,
+      brain: brainResult.data,
+      logs: agentLogs,
+      timestamp: new Date().toISOString(),
+    },
+    { headers: CORS_HEADERS }
+  );
 }

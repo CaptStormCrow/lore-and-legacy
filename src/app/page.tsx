@@ -1,8 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
-
 const TIERS = [
   {
     id: 'wanderer',
@@ -47,35 +44,6 @@ const TIERS = [
 ];
 
 export default function HomePage() {
-  const supabase = createClient();
-  const [email, setEmail] = useState('');
-  const [authMode, setAuthMode] = useState<'idle' | 'signin' | 'sent'>('idle');
-
-  async function handleMagicLink(e: React.FormEvent) {
-    e.preventDefault();
-    if (!email) return;
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: `${window.location.origin}/portal` },
-    });
-    if (!error) setAuthMode('sent');
-  }
-
-  async function handleSubscribe(tierId: string) {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      setAuthMode('signin');
-      return;
-    }
-    const res = await fetch('/api/subscribe', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tier: tierId, userId: session.user.id, email: session.user.email }),
-    });
-    const data = await res.json();
-    if (data.url) window.location.href = data.url;
-  }
-
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       {/* Nav */}
@@ -174,9 +142,12 @@ export default function HomePage() {
                     </li>
                   ))}
                 </ul>
-                <button
-                  onClick={() => handleSubscribe(tier.id)}
+                <a
+                  href="/pricing"
                   style={{
+                    display: 'block',
+                    textAlign: 'center',
+                    textDecoration: 'none',
                     background: tier.featured ? 'var(--gold)' : 'transparent',
                     color: tier.featured ? 'var(--bg)' : 'var(--gold)',
                     border: `1px solid ${tier.featured ? 'var(--gold)' : 'var(--gold-dim)'}`,
@@ -184,67 +155,18 @@ export default function HomePage() {
                     fontFamily: 'Cinzel, serif',
                     fontSize: 12,
                     letterSpacing: '0.12em',
-                    cursor: 'pointer',
                     borderRadius: 2,
                     width: '100%',
+                    boxSizing: 'border-box',
                   }}
                 >
                   {tier.cta}
-                </button>
+                </a>
               </div>
             ))}
           </div>
         </div>
       </section>
-
-      {/* Auth modal */}
-      {(authMode === 'signin' || authMode === 'sent') && (
-        <div
-          onClick={(e) => { if (e.target === e.currentTarget) setAuthMode('idle'); }}
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 }}
-        >
-          <div style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)', borderRadius: 4, padding: '40px 36px', maxWidth: 400, width: '90%' }}>
-            {authMode === 'signin' ? (
-              <>
-                <h2 style={{ fontFamily: 'Cinzel, serif', color: 'var(--gold)', marginBottom: 8 }}>Sign In</h2>
-                <p style={{ color: 'var(--text-muted)', fontSize: 14, lineHeight: 1.6, marginBottom: 24 }}>
-                  Enter your email and we&apos;ll send a magic link. No password needed.
-                </p>
-                <form onSubmit={handleMagicLink}>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your@email.com"
-                    required
-                    style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 2, marginBottom: 12, fontSize: 15, boxSizing: 'border-box' }}
-                  />
-                  <button
-                    type="submit"
-                    style={{ width: '100%', background: 'var(--gold)', color: 'var(--bg)', border: 'none', padding: '11px', fontFamily: 'Cinzel, serif', fontSize: 12, letterSpacing: '0.1em', cursor: 'pointer', borderRadius: 2 }}
-                  >
-                    SEND MAGIC LINK
-                  </button>
-                </form>
-                <button onClick={() => setAuthMode('idle')} style={{ marginTop: 16, background: 'none', border: 'none', color: 'var(--text-dim)', cursor: 'pointer', fontSize: 13 }}>
-                  Cancel
-                </button>
-              </>
-            ) : (
-              <div style={{ textAlign: 'center' }}>
-                <h2 style={{ fontFamily: 'Cinzel, serif', color: 'var(--gold)', marginBottom: 16 }}>Check Your Email</h2>
-                <p style={{ color: 'var(--text-muted)', lineHeight: 1.7 }}>
-                  A magic link has been sent to <strong style={{ color: 'var(--text)' }}>{email}</strong>.
-                  Click it to sign in and complete your subscription.
-                </p>
-                <button onClick={() => setAuthMode('idle')} style={{ marginTop: 24, background: 'none', border: 'none', color: 'var(--text-dim)', cursor: 'pointer', fontSize: 13 }}>
-                  Close
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* Footer */}
       <footer style={{ borderTop: '1px solid var(--border)', padding: '32px 24px', textAlign: 'center' }}>

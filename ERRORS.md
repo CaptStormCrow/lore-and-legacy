@@ -126,4 +126,11 @@ gh repo create lore-and-legacy --public --source=. --remote=origin --push
 
 ## Resolved Items
 
-*No resolved items yet.*
+### E001 — Env vars needed before deployment
+**Resolved:** Session 2 — all env vars set in Vercel. Site is live.
+
+### E002 — increment_usage uses RPC not defined in migration
+**Resolved:** Session 3 — D017 decision applied. `incrementUsage` now takes `(userId: string, tier: string)`, creates its own service client internally, and uses a direct read-then-upsert pattern. No stored procedure needed.
+
+### E003 — Git repo not initialized
+**Resolved:** Session 2 — repo initialized and pushed to GitHub as public. Vercel deployment linked.
