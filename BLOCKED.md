@@ -9,7 +9,7 @@
 
 **Build:** ✅ Passes locally (`npm run build` — 0 errors)
 **Repo:** https://github.com/CaptStormCrow/lore-and-legacy
-**Live URL:** PENDING — needs env vars below
+**Live URL:** ✅ https://lore-and-legacy.vercel.app (build is green — runtime features need secrets below)
 
 ---
 
@@ -23,10 +23,10 @@ These are safe public values. Set them in Vercel before the first deploy:
 
 | Variable | Value | Notes |
 |---|---|---|
-| `NEXT_PUBLIC_SUPABASE_URL` | `https://pcxjdutgojfuzkjtvsta.supabase.co` | Already in .env.local |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `sb_publishable_ZuayYJel4GAk7Of_lx8C0g_XG_Wu57o` | Already in .env.local |
-| `NEXT_PUBLIC_URL` | `https://lore-and-legacy.vercel.app` | Or your custom domain — update after first deploy |
-| `RESEND_FROM_EMAIL` | `worlds@loreandlegacy.com` | Or your verified Resend domain |
+| `NEXT_PUBLIC_SUPABASE_URL` | `https://pcxjdutgojfuzkjtvsta.supabase.co` | ✅ SET IN VERCEL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `sb_publishable_ZuayYJel4GAk7Of_lx8C0g_XG_Wu57o` | ✅ SET IN VERCEL |
+| `NEXT_PUBLIC_URL` | `https://lore-and-legacy.vercel.app` | ✅ SET IN VERCEL |
+| `RESEND_FROM_EMAIL` | `worlds@loreandlegacy.com` | ✅ SET IN VERCEL |
 
 ---
 
