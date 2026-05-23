@@ -31,7 +31,7 @@ export default function ReengagementEmail({
           @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap');
         `}</style>
       </Head>
-      <Preview>{packetCount} worlds have been forged since your last visit.</Preview>
+      <Preview>{`${packetCount} worlds have been forged since your last visit.`}</Preview>
       <Body style={body}>
         <Container style={container}>
           <Section style={header}>
