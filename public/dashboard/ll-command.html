@@ -72,7 +72,7 @@ body::after {
 }
 .hud-logo {
   font-family:'Orbitron',monospace; font-weight:900;
-  font-size:14px; letter-spacing:4px;
+  font-size:16px; letter-spacing:4px;
   color:var(--cyan); text-shadow:0 0 20px var(--cyan);
   white-space:nowrap;
 }
@@ -82,8 +82,8 @@ body::after {
 }
 .status-pill {
   font-family:'Share Tech Mono',monospace;
-  font-size:10px; letter-spacing:2px;
-  padding:3px 10px;
+  font-size:11px; letter-spacing:2px;
+  padding:4px 12px;
   border:1px solid var(--border);
   color:var(--text-dim);
   display:flex; align-items:center; gap:6px;
@@ -97,7 +97,7 @@ body::after {
 .status-dot.red   { background:var(--red);   box-shadow:0 0 6px var(--red); }
 .hud-clock {
   font-family:'Share Tech Mono',monospace;
-  font-size:13px; color:var(--cyan); margin-left:auto;
+  font-size:15px; color:var(--cyan); margin-left:auto;
   text-shadow:0 0 10px var(--cyan);
 }
 .hud-mrr {
@@ -162,23 +162,25 @@ body::after {
 .room-grid {
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:2px; padding:16px;
+  grid-template-rows:repeat(3,1fr);
+  gap:3px; padding:12px;
   background:var(--void);
-  flex:1; overflow-y:auto;
+  flex:1; overflow:hidden;
 }
 
 .room-card {
   background:var(--panel);
   border:1px solid var(--border);
   cursor:pointer; position:relative;
-  overflow:hidden; aspect-ratio:1;
-  transition:all 0.3s ease;
+  overflow:hidden;
+  transition:border-color 0.3s ease, box-shadow 0.3s ease;
   display:flex; flex-direction:column;
+  min-height:0;
 }
 .room-card:hover {
   border-color:var(--border-bright);
-  box-shadow:0 0 20px var(--cyan-glow);
-  z-index:2;
+  box-shadow:0 0 16px var(--cyan-glow);
+  z-index:1;
 }
 .room-card.active-room {
   border-color:var(--cyan);
@@ -196,13 +198,14 @@ body::after {
 
 /* Room agent avatar */
 .room-avatar {
-  position:absolute; bottom:28px; left:50%;
-  transform:translateX(-50%);
-  width:44px; height:44px; border-radius:50%;
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%, -60%);
+  width:52px; height:52px; border-radius:50%;
   display:flex; align-items:center; justify-content:center;
   padding:8px;
   border:2px solid transparent;
-  transition:all 0.3s ease;
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
   overflow:hidden;
 }
 .room-avatar svg {
@@ -213,31 +216,31 @@ body::after {
 /* Room info bar */
 .room-info {
   position:absolute; bottom:0; left:0; right:0;
-  padding:6px 8px;
-  background:rgba(2,4,8,0.9);
+  padding:8px 10px;
+  background:rgba(2,4,8,0.92);
   border-top:1px solid var(--border);
 }
 .room-name {
   font-family:'Share Tech Mono',monospace;
-  font-size:9px; letter-spacing:2px;
+  font-size:11px; letter-spacing:2px;
   color:var(--text-bright); text-transform:uppercase;
 }
 .room-status {
-  display:flex; align-items:center; gap:4px;
-  margin-top:2px;
+  display:flex; align-items:center; gap:5px;
+  margin-top:3px;
 }
-.room-status-dot { width:4px; height:4px; border-radius:50%; }
+.room-status-dot { width:5px; height:5px; border-radius:50%; }
 .room-status-label {
   font-family:'Share Tech Mono',monospace;
-  font-size:8px; letter-spacing:1px; color:var(--text-dim);
+  font-size:9px; letter-spacing:1px; color:var(--text-dim);
 }
 
 /* Room activity indicator */
 .room-activity {
-  position:absolute; top:6px; right:6px;
+  position:absolute; top:8px; right:8px;
   font-family:'Share Tech Mono',monospace;
-  font-size:8px; color:var(--text-dim);
-  letter-spacing:1px;
+  font-size:11px; color:var(--text-dim);
+  letter-spacing:1px; font-weight:bold;
 }
 .room-progress {
   position:absolute; top:0; left:0; right:0; height:2px;
@@ -721,6 +724,38 @@ body::after {
   color:var(--text-dim);
 }
 
+/* ── PIXEL PEOPLE ── */
+.pixel-person {
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%, -55%);
+  width:48px; height:48px;
+  image-rendering:pixelated;
+}
+.pixel-canvas {
+  width:48px; height:48px;
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+}
+@keyframes walkCycle {
+  0%   { transform:translate(-50%,-55%) translateX(-8px); }
+  25%  { transform:translate(-50%,-55%) translateX(0px) translateY(-2px); }
+  50%  { transform:translate(-50%,-55%) translateX(8px); }
+  75%  { transform:translate(-50%,-55%) translateX(0px) translateY(-2px); }
+  100% { transform:translate(-50%,-55%) translateX(-8px); }
+}
+@keyframes workCycle {
+  0%,100% { transform:translate(-50%,-55%) translateY(0px); }
+  50%     { transform:translate(-50%,-55%) translateY(-3px); }
+}
+@keyframes idleBob {
+  0%,100% { transform:translate(-50%,-55%) scaleY(1); }
+  50%     { transform:translate(-50%,-55%) scaleY(0.96); }
+}
+.pixel-person.walking { animation:walkCycle 2s ease-in-out infinite; }
+.pixel-person.working { animation:workCycle 1.2s ease-in-out infinite; }
+.pixel-person.idle    { animation:idleBob 2.5s ease-in-out infinite; }
+
 /* ── ANIMATIONS ── */
 @keyframes blink {
   0%,100%{opacity:1;} 50%{opacity:0.3;}
@@ -755,7 +790,7 @@ body::after {
   <div class="hud-logo">L<span>&</span>L <span style="color:var(--text-dim);font-weight:400;font-size:10px;letter-spacing:6px">COMMAND</span></div>
   <div class="hud-status">
     <div class="status-pill"><span class="status-dot green"></span>ALL SYSTEMS</div>
-    <div class="status-pill"><span class="status-dot green"></span>7 AGENTS ACTIVE</div>
+    <div class="status-pill"><span class="status-dot green"></span>8 AGENTS ACTIVE</div>
     <div class="status-pill"><span class="status-dot gold"></span>1 PENDING</div>
     <div class="status-pill"><span class="status-dot red"></span>2 EMAILS</div>
     <div style="margin-left:auto;display:flex;align-items:center;gap:8px;padding:3px 10px;border:1px solid rgba(0,180,255,0.25);background:rgba(0,180,255,0.05);">
@@ -772,8 +807,8 @@ body::after {
 <!-- NAV -->
 <nav class="hud-nav">
   <button class="nav-tab active" onclick="switchView('ops',this)">OPERATIONS</button>
-  <button class="nav-tab" onclick="switchView('comms',this)">
-    COMMS <span class="nav-badge">3</span>
+  <button class="nav-tab" id="commsTab" onclick="switchView('comms',this);clearCommsBadge()">
+    COMMS <span class="nav-badge" id="commsBadge">3</span>
   </button>
   <button class="nav-tab" onclick="switchView('calendar',this)">CALENDAR</button>
   <button class="nav-tab" onclick="switchView('metrics',this)">METRICS</button>
@@ -819,8 +854,16 @@ body::after {
         <span class="comms-channel-name">Operations</span>
       </div>
       <div class="comms-channel" onclick="selectChannel('qa',this)">
-        <span class="comms-channel-icon">🔬</span>
+        <div style="width:20px;height:20px;flex-shrink:0;padding:2px;">
+          <svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="28" stroke="#ff3a5c" stroke-width="0.6" opacity="0.5"/><circle cx="30" cy="30" r="14" stroke="#ff3a5c" stroke-width="1" opacity="0.8"/><circle cx="30" cy="30" r="2.5" fill="#ff3a5c"/></svg>
+        </div>
         <span class="comms-channel-name">QA & Testing</span>
+      </div>
+      <div class="comms-channel" onclick="selectChannel('content',this)">
+        <div style="width:20px;height:20px;flex-shrink:0;padding:2px;">
+          <svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="28" stroke="#44dd66" stroke-width="0.6" opacity="0.4"/><rect x="16" y="14" width="28" height="34" rx="2" stroke="#44dd66" stroke-width="1" opacity="0.8"/><line x1="20" y1="25" x2="40" y2="25" stroke="#44dd66" stroke-width="0.8"/><line x1="20" y1="32" x2="36" y2="32" stroke="#44dd66" stroke-width="0.8"/></svg>
+        </div>
+        <span class="comms-channel-name">Content</span>
       </div>
       <div class="comms-channel" onclick="selectChannel('finance',this)">
         <span class="comms-channel-icon">💰</span>
@@ -1089,6 +1132,23 @@ const AGENT_SIGILS = {
   <line x1="22" y1="22" x2="38" y2="38" stroke="#ffa800" stroke-width="0.4" opacity="0.4"/>
   <line x1="38" y1="22" x2="22" y2="38" stroke="#ffa800" stroke-width="0.4" opacity="0.4"/>
 </svg>`,
+  'scribe': `<svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- SCRIBE: Quill and scroll -->
+  <circle cx="30" cy="30" r="28" stroke="#44dd66" stroke-width="0.6" opacity="0.4"/>
+  <!-- Scroll body -->
+  <rect x="16" y="14" width="28" height="34" rx="2" stroke="#44dd66" stroke-width="1" opacity="0.8"/>
+  <!-- Scroll curl top -->
+  <ellipse cx="30" cy="14" rx="14" ry="4" stroke="#44dd66" stroke-width="0.8" opacity="0.6"/>
+  <!-- Scroll curl bottom -->
+  <ellipse cx="30" cy="48" rx="14" ry="4" stroke="#44dd66" stroke-width="0.8" opacity="0.6"/>
+  <!-- Text lines -->
+  <line x1="20" y1="22" x2="40" y2="22" stroke="#44dd66" stroke-width="0.6" opacity="0.7"/>
+  <line x1="20" y1="27" x2="40" y2="27" stroke="#44dd66" stroke-width="0.6" opacity="0.7"/>
+  <line x1="20" y1="32" x2="35" y2="32" stroke="#44dd66" stroke-width="0.6" opacity="0.7"/>
+  <line x1="20" y1="37" x2="38" y2="37" stroke="#44dd66" stroke-width="0.6" opacity="0.7"/>
+  <!-- Quill tip -->
+  <path d="M36 38 Q44 28 48 16 Q42 22 38 34Z" fill="#44dd66" opacity="0.7"/>
+</svg>`,
   'captain': `<svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
   <!-- CAPTAIN (Claude): Compass rose / navigation star -->
   <circle cx="30" cy="30" r="28" stroke="#00b4ff" stroke-width="0.6" opacity="0.5"/>
@@ -1341,6 +1401,27 @@ const AGENTS = [
     ]
   },
   {
+    id:'scribe',
+    name:'SCRIBE',
+    role:'Content & Narrative',
+    color:'var(--green)',
+    colorRaw:'#44dd66',
+    room:'The Scriptorium',
+    status:'active',
+    task:'Drafting Reddit value post for r/mattcolville · Building Sample Packet page copy',
+    taskPct:62,
+    stats:{ posts:23, engagements:'1.2K', drafts:8, tasks:9 },
+    skills:['Reddit Seeding','Discord Outreach','Copy Writing','Sample Packet','Community'],
+    mastered:['Reddit Seeding','Copy Writing'],
+    log:[
+      {t:'07:00',txt:'Analyzed top-performing posts in r/worldbuilding this week',cls:''},
+      {t:'07:30',txt:'Draft complete: value post for r/mattcolville — no promotion, pure content',cls:'log-success'},
+      {t:'08:00',txt:'Sample Packet page copy drafted — flagging VEX for strategy review',cls:'log-comms'},
+      {t:'08:15',txt:'Discord outreach: posted in 2 TTRPG servers, monitoring engagement',cls:''},
+      {t:'08:22',txt:'r/mattcolville post: 31 upvotes, 4 comments — converting to demo traffic',cls:'log-success'},
+    ]
+  },
+  {
     id:'claude_captain',
     name:'CLAUDE',
     role:'Captain — Ship Intelligence',
@@ -1379,6 +1460,11 @@ updateClock();
 // ══════════════════════════════
 // VIEW SWITCHING
 // ══════════════════════════════
+function clearCommsBadge() {
+  const badge = document.getElementById('commsBadge');
+  if(badge) badge.style.display = 'none';
+}
+
 function switchView(id, btn) {
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
@@ -1409,8 +1495,8 @@ function buildRoomGrid() {
       </div>
       <div class="room-bg" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">${ROOM_BGS[agent.id]||''}</div>
       <div class="room-activity" style="color:${agent.colorRaw}">${agent.taskPct}%</div>
-      <div class="room-avatar" style="background:rgba(0,0,0,0.5);border-color:${agent.colorRaw};box-shadow:0 0 12px ${agent.colorRaw}40;animation:float ${2+Math.random()}s ease-in-out infinite;width:44px;height:44px;">
-        ${AGENT_SIGILS[agent.id] || AGENT_SIGILS['captain'] || ''}
+      <div style="position:absolute;inset:0;bottom:38px;">
+        <canvas id="pixel-${agent.id}" width="150" height="120" style="width:100%;height:100%;display:block;position:absolute;inset:0;"></canvas>
       </div>
       <div class="room-info">
         <div class="room-name" style="color:${agent.colorRaw}">${agent.name}</div>
@@ -1906,6 +1992,9 @@ setInterval(() => {
     if(bar) bar.style.width = agent.taskPct + '%';
     const pct = document.querySelector(`#room-${agent.id} .room-activity`);
     if(pct) pct.textContent = agent.taskPct + '%';
+    // Restart pixel person if canvas was rebuilt
+    const canvas = document.getElementById('pixel-' + agent.id);
+    if(canvas && !pixelIntervals[agent.id]) startPixelPerson(agent.id, canvas);
 
     // Update panel if this agent is selected
     if(selectedAgent && selectedAgent.id === agent.id) {
@@ -1915,71 +2004,524 @@ setInterval(() => {
 }, 3500);
 
 // ══════════════════════════════
+
+// ══════════════════════════════
+// PIXEL ROOM SYSTEM
+// Each agent has a unique room drawn on canvas
+// ══════════════════════════════
+const pixelIntervals = {};
+
+// Room canvas size
+const RW = 150, RH = 120;
+
+// Color palettes per agent [wall, floor, accent, furniture, char_body, char_head]
+const ROOM_PALETTES = {
+  oracle:        ['#1a0a2e','#120820','#b44fff','#6a1fcc','#6a1fcc','#b44fff'],
+  vex:           ['#1a1000','#120c00','#ffa800','#cc7a00','#cc7a00','#ffa800'],
+  ledger:        ['#001a0e','#001208','#00ff9d','#007a4a','#007a4a','#00ff9d'],
+  cipher:        ['#001020','#000c18','#00b4ff','#006699','#006699','#00b4ff'],
+  axiom:         ['#1a0008','#120004','#ff3a5c','#990022','#990022','#ff3a5c'],
+  herald:        ['#0e0020','#08001a','#b44fff','#5a0099','#5a0099','#b44fff'],
+  forge:         ['#1a0e00','#120800','#ffa800','#996600','#996600','#ffa800'],
+  scribe:        ['#001a08','#001204','#44dd66','#116622','#116622','#44dd66'],
+  claude_captain:['#001220','#000e18','#00b4ff','#005588','#005588','#00b4ff'],
+};
+
+// Draw a filled rectangle
+function rect(ctx, x, y, w, h, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, w, h);
+}
+
+// Draw a pixel character at position
+// Get agent activity state from taskPct
+function getAgentState(agentId) {
+  const agent = AGENTS.find(a => a.id === agentId);
+  if(!agent) return 'working';
+  if(agent.taskPct < 20) return 'sleeping';
+  if(agent.taskPct < 40) return 'sitting';
+  return 'working';
+}
+
+function drawChar(ctx, x, y, pal, frame, state) {
+  const body = pal[4] || pal[0];
+  const head = pal[5] || pal[1];
+  const accent = pal[2];
+  const S = 2;
+  function px(dx, dy, c) { ctx.fillStyle=c; ctx.fillRect(x+dx*S, y+dy*S, S, S); }
+
+  if(state === 'sleeping') {
+    // Lying down — head on left, feet right, ZZZ above
+    // Body horizontal
+    px(0,4,body);px(1,4,body);px(2,4,body);px(3,4,body);px(4,4,body);px(5,4,body);
+    // Head (circle on left)
+    px(-2,2,head);px(-1,2,head);px(0,2,head);
+    px(-2,3,head);px(-1,3,accent);px(0,3,head);
+    px(-2,4,head);px(-1,4,head);px(0,4,head);
+    // Legs bent
+    px(4,5,body);px(5,5,body);
+    px(4,6,accent);px(5,6,accent);
+    // ZZZ floating — blink slowly
+    if(frame % 20 < 14) {
+      ctx.fillStyle = 'rgba(150,150,255,0.7)';
+      ctx.font = '5px monospace';
+      ctx.fillText('z', x+S*(-1), y+S*0);
+    }
+    if(frame % 20 < 8) {
+      ctx.fillStyle = 'rgba(150,150,255,0.5)';
+      ctx.font = '4px monospace';
+      ctx.fillText('z', x+S*1, y+S*(-2));
+    }
+    if(frame % 20 < 3) {
+      ctx.fillStyle = 'rgba(150,150,255,0.3)';
+      ctx.font = '3px monospace';
+      ctx.fillText('z', x+S*3, y+S*(-4));
+    }
+    return;
+  }
+
+  if(state === 'sitting') {
+    // Seated — upright body, legs bent forward, arms resting
+    // Head
+    px(2,0,head);px(3,0,head);px(4,0,head);
+    px(1,1,head);px(2,1,head);px(3,1,head);px(4,1,head);px(5,1,head);
+    px(1,2,head);px(2,2,accent);px(3,2,head);px(4,2,accent);px(5,2,head);
+    px(1,3,head);px(2,3,head);px(3,3,head);px(4,3,head);px(5,3,head);
+    px(2,4,head);px(3,4,head);px(4,4,head);
+    // Body upright
+    px(2,5,body);px(3,5,accent);px(4,5,body);
+    px(1,6,body);px(2,6,body);px(3,6,body);px(4,6,body);px(5,6,body);
+    px(1,7,body);px(2,7,body);px(3,7,body);px(4,7,body);px(5,7,body);
+    // Arms resting on knees
+    px(0,7,accent);px(6,7,accent);
+    px(0,8,accent);px(6,8,accent);
+    // Legs bent — thighs forward
+    px(1,8,body);px(2,8,body);px(3,8,body);px(4,8,body);px(5,8,body);
+    // Lower legs hanging down
+    px(1,9,body);px(5,9,body);
+    px(1,10,accent);px(5,10,accent);
+    // Slow idle bob — head nods occasionally
+    if(frame % 30 > 25) {
+      // Yawn — mouth open indicator
+      ctx.fillStyle = 'rgba(255,200,100,0.5)';
+      ctx.fillRect(x+3*S, y+3*S, S, S);
+    }
+    return;
+  }
+
+  // WORKING — walking animation (default)
+  const swap = frame % 2 === 0;
+  // Head
+  px(2,0,head);px(3,0,head);px(4,0,head);
+  px(1,1,head);px(2,1,head);px(3,1,head);px(4,1,head);px(5,1,head);
+  px(1,2,head);px(2,2,accent);px(3,2,head);px(4,2,accent);px(5,2,head);
+  px(1,3,head);px(2,3,head);px(3,3,head);px(4,3,head);px(5,3,head);
+  px(2,4,head);px(3,4,head);px(4,4,head);
+  // Body
+  px(2,5,body);px(3,5,accent);px(4,5,body);
+  px(1,6,body);px(2,6,body);px(3,6,body);px(4,6,body);px(5,6,body);
+  px(1,7,body);px(2,7,body);px(3,7,body);px(4,7,body);px(5,7,body);
+  // Arms swing opposite to legs
+  px(swap?0:6, 6, accent); px(swap?6:0, 7, accent);
+  // Legs
+  if(swap){
+    px(2,8,body);px(2,9,body);px(1,10,accent);
+    px(4,8,body);px(4,9,body);px(5,10,accent);
+  } else {
+    px(2,8,body);px(2,9,body);px(3,10,accent);
+    px(4,8,body);px(4,9,body);px(4,10,accent);
+  }
+}
+
+// Draw each unique room environment
+const ROOM_RENDERERS = {
+
+  oracle: function(ctx, pal, frame, agentId) {
+    const [wall, floor, accent, furn] = pal;
+    // Floor
+    rect(ctx,0,80,RW,40,floor);
+    // Walls
+    rect(ctx,0,0,RW,80,wall);
+    // Floor tiles
+    for(let x=0;x<RW;x+=15) { ctx.fillStyle='rgba(180,79,255,0.08)'; ctx.fillRect(x,80,1,40); }
+    for(let y=80;y<RH;y+=15) { ctx.fillStyle='rgba(180,79,255,0.08)'; ctx.fillRect(0,y,RW,1); }
+    // Circular map on back wall
+    ctx.strokeStyle=accent; ctx.lineWidth=1; ctx.globalAlpha=0.5;
+    ctx.beginPath(); ctx.arc(75,40,28,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(75,40,18,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(75,40,8,0,Math.PI*2); ctx.stroke();
+    // Cross lines
+    ctx.beginPath(); ctx.moveTo(75,12); ctx.lineTo(75,68); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(47,40); ctx.lineTo(103,40); ctx.stroke();
+    ctx.globalAlpha=1;
+    // Glowing center orb
+    const grd = ctx.createRadialGradient(75,40,2,75,40,10);
+    grd.addColorStop(0,accent); grd.addColorStop(1,'transparent');
+    ctx.fillStyle=grd; ctx.fillRect(65,30,20,20);
+    // Crystal orb stand
+    rect(ctx,70,68,10,6,furn); rect(ctx,68,73,14,3,furn);
+    // Bookshelves left
+    rect(ctx,2,20,18,50,furn);
+    for(let i=0;i<5;i++){rect(ctx,3,22+i*9,16,7,`hsl(${270+i*10},60%,${20+i*5}%)`);}
+    // Bookshelves right
+    rect(ctx,130,20,18,50,furn);
+    for(let i=0;i<5;i++){rect(ctx,131,22+i*9,16,7,`hsl(${270+i*10},60%,${20+i*5}%)`);}
+    // Candles
+    rect(ctx,10,17,3,4,'#ffd700'); ctx.fillStyle='rgba(255,215,0,0.3)'; ctx.fillRect(8,12,7,6);
+    rect(ctx,137,17,3,4,'#ffd700'); ctx.fillStyle='rgba(255,215,0,0.3)'; ctx.fillRect(135,12,7,6);
+    // Character walking between orb and shelves
+    const cx = 55 + Math.sin(frame*0.5)*15;
+    drawChar(ctx, cx, 78, pal, frame, getAgentState(agentId));
+  },
+
+  vex: function(ctx, pal, frame, agentId) {
+    const [wall, floor, accent, furn] = pal;
+    rect(ctx,0,75,RW,45,floor);
+    rect(ctx,0,0,RW,75,wall);
+    // Grid lines on wall (broadcast grid)
+    ctx.strokeStyle='rgba(255,168,0,0.1)'; ctx.lineWidth=1;
+    for(let x=0;x<RW;x+=10){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,75);ctx.stroke();}
+    for(let y=0;y<75;y+=10){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(RW,y);ctx.stroke();}
+    // Big monitor back wall
+    rect(ctx,15,8,120,52,furn); rect(ctx,17,10,116,48,'#001a33');
+    // Screen content - signal bars
+    for(let i=0;i<8;i++){
+      const h = 10+Math.sin(frame*0.3+i)*8+i*3;
+      rect(ctx,22+i*14,55-h,10,h,`rgba(255,168,0,${0.4+i*0.07})`);
+    }
+    // Screen glow
+    ctx.fillStyle='rgba(255,168,0,0.06)'; ctx.fillRect(17,10,116,48);
+    // Monitor stand
+    rect(ctx,68,60,14,8,furn); rect(ctx,60,68,30,4,furn);
+    // Desk
+    rect(ctx,20,75,110,6,furn); rect(ctx,20,81,8,14,furn); rect(ctx,122,81,8,14,furn);
+    // Keyboard on desk
+    rect(ctx,50,72,50,4,'#1a1000'); rect(ctx,52,73,46,2,'#2a1800');
+    // Coffee mug
+    rect(ctx,30,70,8,6,furn); rect(ctx,26,71,4,4,furn);
+    // Post-it notes on wall
+    rect(ctx,2,15,12,10,'#cc7a00'); rect(ctx,2,28,12,10,'#996600');
+    rect(ctx,136,15,12,10,'#996600'); rect(ctx,136,28,12,10,'#cc7a00');
+    // Char at desk
+    drawChar(ctx, 65, 73, pal, frame, getAgentState(agentId));
+  },
+
+  ledger: function(ctx, pal, frame, agentId) {
+    const [wall, floor, accent, furn] = pal;
+    rect(ctx,0,78,RW,42,floor);
+    rect(ctx,0,0,RW,78,wall);
+    // Wood paneling
+    for(let y=0;y<78;y+=12){ctx.fillStyle='rgba(0,255,157,0.04)';ctx.fillRect(0,y,RW,1);}
+    // Filing cabinet left
+    rect(ctx,2,30,22,48,furn);
+    for(let i=0;i<4;i++){rect(ctx,4,32+i*11,18,9,'#005533');rect(ctx,18,35+i*11,4,3,accent);}
+    // Big safe right
+    rect(ctx,118,25,28,53,furn);
+    rect(ctx,122,30,20,20,'#003322');
+    ctx.strokeStyle=accent;ctx.lineWidth=1.5;ctx.globalAlpha=0.8;
+    ctx.beginPath();ctx.arc(132,40,7,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(132,33);ctx.lineTo(132,40);ctx.stroke();
+    ctx.globalAlpha=1;
+    rect(ctx,128,50,8,6,accent);
+    // Desk center
+    rect(ctx,30,72,88,6,furn);rect(ctx,30,78,6,18,furn);rect(ctx,112,78,6,18,furn);
+    // Stack of ledgers on desk
+    for(let i=0;i<4;i++){rect(ctx,38,62-i*4,24,4,`hsl(${150+i*10},60%,${12+i*3}%)`);}
+    // Monitor
+    rect(ctx,68,48,30,22,furn);rect(ctx,70,50,26,18,'#001a0e');
+    // Green numbers on screen
+    ctx.fillStyle=accent;ctx.font='4px monospace';
+    ctx.fillText('$623',74,58);ctx.fillText('+12%',74,64);
+    // Lamp
+    rect(ctx,110,60,4,14,furn);rect(ctx,106,58,12,4,furn);
+    ctx.fillStyle='rgba(0,255,157,0.15)';ctx.fillRect(100,58,24,20);
+    // Char
+    const lx = 60 + Math.sin(frame*0.4)*8;
+    drawChar(ctx, lx, 76, pal, frame, getAgentState(agentId));
+  },
+
+  cipher: function(ctx, pal, frame, agentId) {
+    const [wall, floor, accent, furn] = pal;
+    rect(ctx,0,76,RW,44,floor);
+    rect(ctx,0,0,RW,76,wall);
+    // Mail slots back wall
+    rect(ctx,5,5,60,68,furn);
+    for(let r=0;r<5;r++)for(let c=0;c<4;c++){
+      const full = Math.random()>0.5;
+      rect(ctx,7+c*14,7+r*13,12,10,'#001828');
+      if(full)rect(ctx,8+c*14,9+r*13,10,2,'rgba(0,180,255,0.6)');
+    }
+    // Inbox tray right
+    rect(ctx,90,45,52,8,furn);rect(ctx,90,53,52,2,accent);
+    // Stack of envelopes
+    for(let i=0;i<3;i++){
+      rect(ctx,92,34-i*5,30,6,'#001828');
+      ctx.strokeStyle='rgba(0,180,255,0.4)';ctx.lineWidth=0.5;
+      ctx.beginPath();ctx.moveTo(92,34-i*5);ctx.lineTo(107,40-i*5);ctx.lineTo(122,34-i*5);ctx.stroke();
+    }
+    // Desk
+    rect(ctx,70,72,75,5,furn);rect(ctx,70,77,5,20,furn);rect(ctx,140,77,5,20,furn);
+    // Typing terminal
+    rect(ctx,80,62,40,11,furn);rect(ctx,82,63,36,8,'#000e18');
+    ctx.fillStyle='rgba(0,180,255,0.7)';ctx.font='4px monospace';
+    const cursor = frame%6<3?'_':'';
+    ctx.fillText('> '+cursor,84,69);
+    // Lamp
+    rect(ctx,125,62,3,12,furn);rect(ctx,120,60,14,3,furn);
+    ctx.fillStyle='rgba(0,180,255,0.12)';ctx.fillRect(115,60,20,18);
+    // Char at terminal
+    drawChar(ctx, 90, 74, pal, frame, getAgentState(agentId));
+  },
+
+  axiom: function(ctx, pal, frame, agentId) {
+    const [wall, floor, accent, furn] = pal;
+    rect(ctx,0,78,RW,42,floor);
+    rect(ctx,0,0,RW,78,wall);
+    // Lab tile floor
+    for(let x=0;x<RW;x+=12)for(let y=78;y<RH;y+=12){
+      ctx.fillStyle='rgba(255,58,92,0.05)';ctx.fillRect(x,y,11,11);
+    }
+    // Big test display left
+    rect(ctx,2,5,55,65,furn);rect(ctx,4,7,51,61,'#0d0004');
+    // Radar circle on screen
+    ctx.strokeStyle=accent;ctx.lineWidth=1;ctx.globalAlpha=0.6;
+    ctx.beginPath();ctx.arc(29,37,22,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.arc(29,37,14,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.arc(29,37,6,0,Math.PI*2);ctx.stroke();
+    // Rotating sweep line
+    const ang = (frame*0.15)%(Math.PI*2);
+    ctx.beginPath();ctx.moveTo(29,37);
+    ctx.lineTo(29+Math.cos(ang)*22,37+Math.sin(ang)*22);ctx.stroke();
+    ctx.globalAlpha=1;
+    // Blip
+    ctx.fillStyle=accent;ctx.beginPath();ctx.arc(29+Math.cos(ang)*14,37+Math.sin(ang)*14,2,0,Math.PI*2);ctx.fill();
+    // Side panels
+    rect(ctx,62,5,36,30,furn);rect(ctx,64,7,32,26,'#0d0004');
+    ctx.fillStyle='rgba(255,58,92,0.6)';ctx.font='4px monospace';
+    ctx.fillText('P95:11.2s',65,15);ctx.fillText('ERR: 0.0%',65,22);ctx.fillText('PASS:94',65,29);
+    rect(ctx,62,40,36,28,furn);rect(ctx,64,42,32,24,'#0d0004');
+    ctx.fillStyle='rgba(255,58,92,0.4)';
+    for(let i=0;i<5;i++){rect(ctx,65,44+i*4,Math.random()>0.3?28:14,3,`rgba(255,58,92,${0.3+i*0.1})`);}
+    // Workbench
+    rect(ctx,100,68,48,7,furn);rect(ctx,100,75,5,22,furn);rect(ctx,143,75,5,22,furn);
+    // Tools on bench
+    rect(ctx,105,62,6,7,'#330011');rect(ctx,115,64,4,5,'#330011');rect(ctx,125,61,3,8,accent);
+    // Char
+    const ax = 110 + Math.sin(frame*0.3)*6;
+    drawChar(ctx, ax, 76, pal, frame, getAgentState(agentId));
+  },
+
+  herald: function(ctx, pal, frame, agentId) {
+    const [wall, floor, accent, furn] = pal;
+    rect(ctx,0,76,RW,44,floor);
+    rect(ctx,0,0,RW,76,wall);
+    // Antenna tower back center
+    rect(ctx,72,5,6,65,furn);
+    rect(ctx,60,20,30,3,furn);rect(ctx,65,30,20,3,furn);rect(ctx,68,40,14,3,furn);
+    // Signal rings
+    for(let r=1;r<=3;r++){
+      const alpha = 0.15+Math.sin(frame*0.2+r)*0.1;
+      ctx.strokeStyle=`rgba(180,79,255,${alpha})`;ctx.lineWidth=1;
+      ctx.beginPath();ctx.arc(75,5,r*18,Math.PI,Math.PI*2);ctx.stroke();
+    }
+    // Dispatch board left
+    rect(ctx,2,10,40,60,furn);
+    for(let i=0;i<5;i++){
+      const sent = i < 3;
+      rect(ctx,4,12+i*11,36,9,'#0e0020');
+      rect(ctx,5,13+i*11,sent?32:16,2,sent?accent:'rgba(180,79,255,0.3)');
+      ctx.fillStyle='rgba(180,79,255,0.5)';ctx.font='4px monospace';
+      ctx.fillText(sent?'SENT':'QUEUE',6,20+i*11);
+    }
+    // Outbox stack
+    rect(ctx,100,50,45,5,furn);
+    for(let i=0;i<4;i++){rect(ctx,102,35+i*4,30,4,'#0e0020');ctx.strokeStyle='rgba(180,79,255,0.3)';ctx.lineWidth=0.5;ctx.strokeRect(102,35+i*4,30,4);}
+    // Desk
+    rect(ctx,45,72,105,5,furn);rect(ctx,45,77,5,20,furn);rect(ctx,145,77,5,20,furn);
+    // Terminal
+    rect(ctx,55,60,40,13,furn);rect(ctx,57,62,36,10,'#08001a');
+    ctx.fillStyle=accent;ctx.font='4px monospace';
+    ctx.fillText('47/47 sent',59,69);
+    // Char
+    const hx = 90 + Math.sin(frame*0.35)*10;
+    drawChar(ctx, hx, 74, pal, frame, getAgentState(agentId));
+  },
+
+  forge: function(ctx, pal, frame, agentId) {
+    const [wall, floor, accent, furn] = pal;
+    rect(ctx,0,76,RW,44,'#1a1000');
+    rect(ctx,0,0,RW,76,'#0d0800');
+    // Stone brick wall pattern
+    for(let row=0;row<6;row++)for(let col=0;col<6;col++){
+      ctx.strokeStyle='rgba(255,168,0,0.06)';ctx.lineWidth=1;
+      ctx.strokeRect(col*25+(row%2)*12,row*13,23,12);
+    }
+    // Forge furnace back left - glowing
+    rect(ctx,2,15,35,61,furn);
+    rect(ctx,5,18,29,40,'#1a0800');
+    // Fire effect
+    const fireColors=['#ff4400','#ff6600','#ffa800','#ffcc00'];
+    for(let i=0;i<8;i++){
+      const fh=10+Math.sin(frame*0.4+i)*6;
+      const fc=fireColors[Math.floor(Math.random()*4)];
+      ctx.fillStyle=fc+'88';ctx.fillRect(6+i*3,55-fh,3,fh);
+    }
+    ctx.fillStyle='rgba(255,100,0,0.15)';ctx.fillRect(2,15,35,61);
+    // Chimney pipe
+    rect(ctx,12,2,15,16,furn);
+    // Smoke puffs
+    for(let s=0;s<3;s++){
+      const sy=(frame*2+s*8)%30;
+      ctx.fillStyle=`rgba(80,60,40,${0.2-sy*0.006})`;
+      ctx.beginPath();ctx.arc(19,2-sy+30,3+s,0,Math.PI*2);ctx.fill();
+    }
+    // Workbench right
+    rect(ctx,45,65,100,7,furn);rect(ctx,45,72,6,25,furn);rect(ctx,139,72,6,25,furn);
+    // Anvil on bench
+    rect(ctx,52,55,24,10,furn);rect(ctx,56,50,16,6,furn);rect(ctx,54,65,20,4,'#664400');
+    // Tools hanging on wall
+    for(let t=0;t<5;t++){
+      rect(ctx,50+t*18,20,4,20,`rgba(255,168,0,0.5)`);
+      rect(ctx,48+t*18,18,8,4,furn);
+    }
+    // Gears on wall
+    ctx.strokeStyle='rgba(255,168,0,0.3)';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.arc(120,30,12,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.arc(138,30,8,0,Math.PI*2);ctx.stroke();
+    // Sparks from anvil occasionally
+    if(frame%3===0){
+      for(let sp=0;sp<4;sp++){
+        ctx.fillStyle='#ffa800';
+        ctx.fillRect(58+Math.random()*12,48+Math.random()*8,1,1);
+      }
+    }
+    // Char at anvil
+    drawChar(ctx, 62, 73, pal, frame, getAgentState(agentId));
+  },
+
+  scribe: function(ctx, pal, frame, agentId) {
+    const [wall, floor, accent, furn] = pal;
+    rect(ctx,0,76,RW,44,'#001a08');
+    rect(ctx,0,0,RW,76,'#000e04');
+    // Wooden shelf wall left - scrolls
+    rect(ctx,2,5,28,68,furn);
+    for(let i=0;i<5;i++){
+      // Scroll rolls
+      ctx.fillStyle=`rgba(180,255,200,${0.15+i*0.05})`;
+      ctx.beginPath();ctx.ellipse(16,10+i*13,6,4,0,0,Math.PI*2);ctx.fill();
+      rect(ctx,4,8+i*13,24,2,'rgba(68,221,102,0.3)');
+    }
+    // Pinboard center wall
+    rect(ctx,35,5,80,55,'#001a08');rect(ctx,37,7,76,51,'#002a10');
+    // Pinned notes
+    const notes=[
+      {x:40,y:10,w:20,h:14,c:'rgba(68,221,102,0.15)'},
+      {x:65,y:8,w:25,h:16,c:'rgba(0,200,80,0.12)'},
+      {x:92,y:11,w:18,h:13,c:'rgba(40,180,80,0.15)'},
+      {x:42,y:30,w:22,h:14,c:'rgba(68,221,102,0.1)'},
+      {x:68,y:28,w:26,h:18,c:'rgba(0,180,60,0.13)'},
+    ];
+    notes.forEach(n=>{
+      rect(ctx,n.x,n.y,n.w,n.h,n.c);
+      ctx.strokeStyle='rgba(68,221,102,0.3)';ctx.lineWidth=0.5;ctx.strokeRect(n.x,n.y,n.w,n.h);
+      // Pin dot
+      ctx.fillStyle=accent;ctx.beginPath();ctx.arc(n.x+n.w/2,n.y+1,1.5,0,Math.PI*2);ctx.fill();
+      // Text lines on note
+      ctx.fillStyle='rgba(68,221,102,0.5)';
+      for(let l=0;l<2;l++){ctx.fillRect(n.x+2,n.y+5+l*4,n.w-4,1);}
+    });
+    // Quill pen + inkwell
+    rect(ctx,118,55,5,20,furn);
+    ctx.strokeStyle=accent;ctx.lineWidth=1;ctx.globalAlpha=0.7;
+    ctx.beginPath();ctx.moveTo(120,20);ctx.quadraticCurveTo(125,35,120,55);ctx.stroke();
+    ctx.globalAlpha=1;
+    rect(ctx,113,55,14,8,furn);rect(ctx,115,57,10,4,'#001a08');
+    // Writing desk
+    rect(ctx,30,72,115,5,furn);rect(ctx,30,77,5,20,furn);rect(ctx,140,77,5,20,furn);
+    // Open scroll on desk
+    rect(ctx,45,62,65,12,'rgba(180,255,200,0.08)');
+    ctx.strokeStyle='rgba(68,221,102,0.3)';ctx.lineWidth=0.5;
+    for(let l=0;l<3;l++){ctx.beginPath();ctx.moveTo(48,65+l*3);ctx.lineTo(105,65+l*3);ctx.stroke();}
+    // Candle
+    rect(ctx,120,62,5,12,'rgba(255,220,100,0.6)');
+    ctx.fillStyle='rgba(255,220,100,0.2)';ctx.fillRect(115,55,15,20);
+    // Char writing at desk
+    const sx = 70 + Math.sin(frame*0.25)*5;
+    drawChar(ctx, sx, 74, pal, frame, getAgentState(agentId));
+  },
+
+  claude_captain: function(ctx, pal, frame, agentId) {
+    const [wall, floor, accent, furn] = pal;
+    rect(ctx,0,76,RW,44,'#000e18');
+    rect(ctx,0,0,RW,76,'#000810');
+    // Curved bridge windows at top
+    rect(ctx,0,0,RW,35,'#000c18');
+    ctx.strokeStyle='rgba(0,180,255,0.2)';ctx.lineWidth=1;
+    for(let w=0;w<4;w++){ctx.strokeRect(5+w*36,3,32,28);}
+    // Stars through windows
+    ctx.fillStyle='rgba(200,230,255,0.6)';
+    for(let s=0;s<20;s++){ctx.fillRect(6+Math.floor(s*7.3)%138,4+Math.floor(s*3.7)%24,1,1);}
+    // Navigation console center
+    rect(ctx,30,40,90,35,furn);rect(ctx,32,42,86,31,'#000c18');
+    // Radar sweep on console
+    ctx.strokeStyle=accent;ctx.lineWidth=1;ctx.globalAlpha=0.6;
+    ctx.beginPath();ctx.arc(75,52,14,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.arc(75,52,8,0,Math.PI*2);ctx.stroke();
+    const sweepA=(frame*0.2)%(Math.PI*2);
+    ctx.beginPath();ctx.moveTo(75,52);ctx.lineTo(75+Math.cos(sweepA)*14,52+Math.sin(sweepA)*14);ctx.stroke();
+    ctx.globalAlpha=1;
+    ctx.fillStyle=accent;ctx.beginPath();ctx.arc(75,52,2,0,Math.PI*2);ctx.fill();
+    // Side displays
+    rect(ctx,2,38,25,35,furn);rect(ctx,4,40,21,31,'#000c18');
+    ctx.fillStyle='rgba(0,180,255,0.5)';ctx.font='4px monospace';
+    ctx.fillText('MRR:$623',5,48);ctx.fillText('SUBS:47',5,55);ctx.fillText('OK:7/7',5,62);
+    rect(ctx,123,38,25,35,furn);rect(ctx,125,40,21,31,'#000c18');
+    ctx.fillText('BRAIN:ON',126,48);ctx.fillText('CRON:OK',126,55);ctx.fillText('API:UP',126,62);
+    // Captain chair
+    rect(ctx,63,68,24,8,furn);rect(ctx,60,60,30,10,furn);
+    rect(ctx,60,60,4,16,furn);rect(ctx,86,60,4,16,furn);
+    // Floor panels
+    for(let x=0;x<RW;x+=20){ctx.fillStyle='rgba(0,180,255,0.04)';ctx.fillRect(x,76,1,44);}
+    // Char at the helm
+    drawChar(ctx, 70, 74, pal, frame, getAgentState(agentId));
+  },
+};
+
+function renderRoom(agentId, canvas) {
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if(!ctx) return;
+  const palette = ROOM_PALETTES[agentId] || ROOM_PALETTES['oracle'];
+  const renderer = ROOM_RENDERERS[agentId] || ROOM_RENDERERS['oracle'];
+  let frame = 0;
+  if(pixelIntervals[agentId]) clearInterval(pixelIntervals[agentId]);
+  // Initial draw
+  renderer(ctx, palette, frame, agentId);
+  pixelIntervals[agentId] = setInterval(function(){
+    frame = (frame+1) % 60;
+    renderer(ctx, palette, frame, agentId);
+  }, 120);
+}
+
+function startPixelPerson(agentId, canvas) {
+  renderRoom(agentId, canvas);
+}
+
+function initPixelPeople() {
+  AGENTS.forEach(function(agent){
+    var canvas = document.getElementById('pixel-'+agent.id);
+    if(canvas) renderRoom(agent.id, canvas);
+  });
+}
+
+
 // INIT
 // ══════════════════════════════
 buildRoomGrid();
+setTimeout(initPixelPeople, 50);
 renderComms();
 renderCalendar();
 initMetrics();
-
-// ── LIVE STATUS POLLING ──
-async function pollStatus() {
-  try {
-    const res = await fetch('/api/status');
-    if (!res.ok) return;
-    const data = await res.json();
-    if (data.dashboard) {
-      const d = data.dashboard;
-      const mrrEl = document.querySelector('.hud-mrr');
-      if (mrrEl) mrrEl.textContent = 'MRR  $' + (d.mrr ?? 0);
-      const pills = document.querySelectorAll('.status-pill');
-      if (pills[1]) pills[1].innerHTML =
-        '<span class="status-dot green"></span>' + (d.total_subscribers ?? 0) + ' SUBSCRIBERS';
-    }
-    const metricMap = {
-      mSubs: data.dashboard?.total_subscribers,
-      mMrr: data.dashboard?.mrr ? '$' + data.dashboard.mrr : null,
-      mWorlds: data.dashboard?.generations_this_week,
-    };
-    Object.entries(metricMap).forEach(([id, val]) => {
-      const el = document.getElementById(id);
-      if (el && val != null) el.textContent = String(val);
-    });
-    if (data.logs) {
-      Object.keys(data.logs).forEach(agentId => {
-        const agent = AGENTS.find(a => a.id === agentId);
-        if (!agent || !data.logs[agentId]?.length) return;
-        agent.log = data.logs[agentId].map(l => ({
-          t: new Date(l.created_at).toTimeString().slice(0, 5),
-          txt: l.message,
-          cls: l.level === 'success' ? 'log-success' :
-               l.level === 'warning' ? 'log-warn' :
-               l.level === 'error'   ? 'log-warn' : ''
-        }));
-        const lastLog = data.logs[agentId][0];
-        if (lastLog) {
-          const dot = document.querySelector('#room-' + agentId + ' .room-status-dot');
-          if (dot) {
-            const color = lastLog.level === 'error' ? 'var(--red)' :
-                          lastLog.level === 'warning' ? 'var(--gold)' : 'var(--green)';
-            dot.style.background = color;
-            dot.style.boxShadow = '0 0 4px ' + color;
-          }
-        }
-        if (selectedAgent && selectedAgent.id === agentId) {
-          selectAgent(agent);
-        }
-      });
-    }
-    if (data.brain?.state?.weekly_goal) {
-      window._brainGoal = data.brain.state.weekly_goal;
-    }
-  } catch(err) {
-    console.warn('Status poll failed — using cached data:', err.message);
-  }
-}
-pollStatus();
-setInterval(pollStatus, 30000);
 </script>
 </body>
 </html>
