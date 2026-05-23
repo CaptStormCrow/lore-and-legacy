@@ -11,13 +11,6 @@ const schema = z.object({
   email: z.string().email(),
 });
 
-const PRICE_MAP: Record<string, string | undefined> = {
-  wanderer: process.env.STRIPE_PRICE_WANDERER,
-  cartographer: process.env.STRIPE_PRICE_CARTOGRAPHER,
-  architect: process.env.STRIPE_PRICE_ARCHITECT,
-  founding_vault: process.env.STRIPE_PRICE_FOUNDING_VAULT,
-};
-
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
   const parsed = schema.safeParse(body);
@@ -27,6 +20,14 @@ export async function POST(request: NextRequest) {
   }
 
   const { tier, userId, email } = parsed.data;
+
+  const PRICE_MAP: Record<string, string | undefined> = {
+    wanderer: process.env.STRIPE_PRICE_WANDERER,
+    cartographer: process.env.STRIPE_PRICE_CARTOGRAPHER,
+    architect: process.env.STRIPE_PRICE_ARCHITECT,
+    founding_vault: process.env.STRIPE_PRICE_FOUNDING_VAULT,
+  };
+
   const priceId = PRICE_MAP[tier];
 
   if (!priceId) {
